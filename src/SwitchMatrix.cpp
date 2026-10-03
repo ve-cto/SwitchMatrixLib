@@ -38,22 +38,27 @@ SwitchMatrix::SwitchMatrix(const u_int rowPins[], const u_int colPins[], u_int r
     _rowPins = rowPins;
     _colPins = colPins;
     _rowsAreInputs = rowsAreInputs;
+    _inputsNeedPullups = inputsNeedPullups;
     _pressedCoordinates.resize(_rows, std::vector<bool>(_cols, false)); // Make our coordinate system that tracks whether buttons are triggered the same size as the inputted grid.
     _callbackPressFunctions.resize(_rows, std::vector<CallbackFunction>(_cols, nullptr));
     _callbackReleaseFunctions.resize(_rows, std::vector<CallbackFunction>(_cols, nullptr));
     _callbackHeldFunctions.resize(_rows, std::vector<CallbackFunction>(_cols, nullptr));
     _debounceCounts.resize(_rows, std::vector<u_short>(_cols, 0));
+}
 
-    for (int i = 0; i < rows; i++) {
-        if (rowsAreInputs) {if (inputsNeedPullups) {pinMode(rowPins[i], INPUT_PULLUP);} else {pinMode(rowPins[i], INPUT);}} else {pinMode(rowPins[i], OUTPUT); digitalWrite(rowPins[i], HIGH);}
+void SwitchMatrix::begin() {
+    if (rows == 0 || cols == 0) {return;} // TODO: out of range exception
+    for (uint i = 0; i < _rows; i++) {
+        if (_rowsAreInputs) {if (_inputsNeedPullups) {pinMode(_rowPins[i], INPUT_PULLUP);} else {pinMode(_rowPins[i], INPUT);}} else {pinMode(_rowPins[i], OUTPUT); digitalWrite(_rowPins[i], HIGH);}
     }
-    for (int i = 0; i < cols; i++) {
-        if (!rowsAreInputs) {if (inputsNeedPullups) {pinMode(colPins[i], INPUT_PULLUP);} else {pinMode(colPins[i], INPUT);}} else {pinMode(colPins[i], OUTPUT); digitalWrite(colPins[i], HIGH);}
+    for (uint i = 0; i < _cols; i++) {
+        if (!_rowsAreInputs) {if (_inputsNeedPullups) {pinMode(_colPins[i], INPUT_PULLUP);} else {pinMode(_colPins[i], INPUT);}} else {pinMode(_colPins[i], OUTPUT); digitalWrite(_colPins[i], HIGH);}
     }
+    _hasInitialised = true;
 }
 
 void SwitchMatrix::poll() {
-    if (!_enabled) {return;}
+    if (!_enabled || !_hasInitialised) {return;}
     const unsigned long now = millis();
     if (now - _lastPoll >= _minPollDtMs) { // Skip
         _lastPoll = now;
@@ -142,13 +147,13 @@ void SwitchMatrix::poll() {
 }
 
 bool SwitchMatrix::getButtonPressed(uint row, uint col) {
-    if (!_enabled) {return false;}
+    if (!_enabled || !_hasInitialised) {return false;}
     if (row >= _rows || col >= _cols) {return false;}
     return _pressedCoordinates[row][col];
 }
 
 std::vector<std::vector<bool>> SwitchMatrix::getButtonValues() {
-    if (!_enabled) {return {};}
+    if (!_enabled || !_hasInitialised) {return {};}
     return _pressedCoordinates;
 }
 

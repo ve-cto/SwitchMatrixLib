@@ -48,6 +48,12 @@ class SwitchMatrix
          */
         SwitchMatrix(const u_int rowPins[], const u_int colPins[], u_int rows, u_int cols, bool rowsAreInputs, bool inputsNeedPullups);
         /**
+         * Initialize the matrix with values defined in its' constructor.
+         * @note Needs to be called before any other methods.
+         * @note poll() will not run unless begin() is called first.
+         */
+        void begin();
+        /**
          * Iterate through all matrix elements and check for presses.
          * @note Skips if millis() is less than defined _minPollDtMs.
          * @note Skips if !_enabled.
@@ -158,6 +164,7 @@ class SwitchMatrix
         uint _bcount;
         int _pollIterCount = 0;
         bool _rowsAreInputs;
+        bool _inputsNeedPullups;
         uint8_t _pollOutputSwitchDelay = 3;
         const u_int* _rowPins;
         const u_int* _colPins;
@@ -173,6 +180,7 @@ class SwitchMatrix
         CoordinatedCallbackFunction _gCallbackHeldFunction = nullptr;
         CoordinatedCallbackFunction _gCallbackReleaseFunction = nullptr;
         bool _enabled = true;
+        bool _hasInitialised = false;
 };
 
 #endif
