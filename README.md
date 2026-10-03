@@ -1,9 +1,6 @@
 # SwitchMatrixLib
-Library for interfacing with button/switch diode matrices.
-> This documentation is incomplete, and this library is still in early development.
-
-Made for matrices defined in this (or similar) format.
-![](https://ve-cto.github.io/portfolio/diodematrix1.png "")
+Library for easily interfacing with button/switch diode matrices, such as the one below.
+<br><img src="https://ve-cto.github.io/portfolio/diodematrix1.png" alt="" width="500">
 
 ## Basic Implementation
 Matrices are created by defining pins for rows and columns, setting the matrix size, stating whether the rows are inputs, and whether the inputs need internal pullup resistors. The library configures the pins for you.
