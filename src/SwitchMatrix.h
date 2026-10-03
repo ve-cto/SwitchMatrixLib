@@ -137,6 +137,7 @@ class SwitchMatrix
         short getDebounceSamples();
         /**
          * Set the minimum delay between whole-matrix polls.
+         * @note The poll is skipped if this time has not elapsed since the last poll.
          * @param ms uint Delay in milliseconds
          */
         void setMinPollDtMs(uint ms);
