@@ -47,7 +47,7 @@ SwitchMatrix::SwitchMatrix(const u_int rowPins[], const u_int colPins[], u_int r
 }
 
 void SwitchMatrix::begin() {
-    if (rows == 0 || cols == 0) {return;} // TODO: out of range exception
+    if (_rows == 0 || _cols == 0) {return;} // TODO: out of range exception
     for (uint i = 0; i < _rows; i++) {
         if (_rowsAreInputs) {if (_inputsNeedPullups) {pinMode(_rowPins[i], INPUT_PULLUP);} else {pinMode(_rowPins[i], INPUT);}} else {pinMode(_rowPins[i], OUTPUT); digitalWrite(_rowPins[i], HIGH);}
     }
