@@ -1,6 +1,6 @@
 {
   "name": "SwitchMatrixLib",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Library for interfacing with button/switch diode matrices.",
   "keywords": "button, matrix, keypad, esp32",
   "authors": [
