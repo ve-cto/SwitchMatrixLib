@@ -24,10 +24,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 #ifndef SwitchMatrix_h
-#define SwitchMatrix_h
+    #define SwitchMatrix_h
 
 #include "Arduino.h"
+#if defined(ARDUINO_ARCH_AVR)
+  #error "This library is not compatible with boards using AVR architecture."
+#endif
+#if defined(__AVR__)
+  #error "This library is not compatible with boards using AVR architecture."
+#endif
 #include <vector>
 #include <array>
 
